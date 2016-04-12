@@ -16,15 +16,23 @@ public class MainActivity extends AppCompatActivity implements MoviesFragment.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         MoviesFragment fragment = (MoviesFragment)getSupportFragmentManager().findFragmentByTag("MoviesFragment");
         if(fragment == null) {
             fragment = new MoviesFragment();
         }
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.container, fragment, "MoviesFragment");
-        ft.commit();
+
+
+        if(findViewById(R.id.container_right) != null) {
+            ft.replace(R.id.container_left, fragment, "MoviesFragment");
+            ft.commit();
+
+        } else {
+            ft.replace(R.id.container, fragment, "MoviesFragment");
+            ft.commit();
+        }
+
+
     }
 
 
@@ -58,10 +66,21 @@ public class MainActivity extends AppCompatActivity implements MoviesFragment.On
         DetailFragment detailFragment = new DetailFragment();
         detailFragment.setArguments(bundle);
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, detailFragment, null)
-                .addToBackStack(null)
-                .commit();
+
+        if(findViewById(R.id.container_right) != null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container_right, detailFragment, null)
+                    .addToBackStack(null)
+                    .commit();
+
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, detailFragment, null)
+                    .addToBackStack(null)
+                    .commit();
+        }
+
+
 
     }
 }
